@@ -1,0 +1,155 @@
+/* ==========================================================================
+   Voren — Método de pagamento
+   Used only by pages/payment.html, on top of the existing dashboard.css
+   (linked read-only for the sidebar/topbar shell, cards, buttons, fields —
+   nothing in that file is touched or duplicated here). This file adds only
+   what's specific to the payment-method form on this page.
+   ========================================================================== */
+
+.payment-page-wrap {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--space-4);
+}
+
+.payment-card {
+  width: 100%;
+  max-width: 560px;
+  padding: var(--space-8);
+}
+
+.payment-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-7);
+}
+
+.payment-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-50);
+  color: var(--color-primary-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.payment-card-icon svg { width: 20px; height: 20px; }
+
+.payment-card-title { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.payment-card-subtitle { font-size: var(--fs-xs); color: var(--color-text-tertiary); margin-top: 2px; }
+
+.payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.payment-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+/* Card number field gets a small brand glyph on the right so it reads as a
+   real card field rather than a generic text input. */
+.payment-card-number-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.payment-card-brand-icon {
+  position: absolute;
+  right: var(--space-4);
+  width: 28px;
+  height: 18px;
+  border-radius: 3px;
+  background: var(--color-bg-inset);
+  color: var(--color-text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: background-color var(--duration-base) var(--ease-out),
+              color var(--duration-base) var(--ease-out);
+}
+
+.payment-card-brand-icon svg { width: 16px; height: 16px; }
+
+.payment-card-number-wrap.has-value .payment-card-brand-icon {
+  background: var(--color-primary-50);
+  color: var(--color-primary-500);
+}
+
+.payment-form .field-input[data-card-number] {
+  padding-right: 48px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+.payment-form .field-input[data-card-expiry],
+.payment-form .field-input[data-card-cvv] {
+  font-family: var(--font-mono);
+}
+
+.payment-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--gradient-primary-soft);
+  border: 1px solid var(--color-primary-100);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-2);
+}
+
+.payment-notice-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-xs);
+  color: var(--color-primary-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.payment-notice-icon svg { width: 15px; height: 15px; }
+
+.payment-notice-text {
+  font-size: var(--fs-xs);
+  color: var(--color-text-secondary);
+  line-height: var(--lh-normal);
+}
+
+.payment-saved-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  color: var(--color-text-tertiary);
+}
+
+.payment-saved-note svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+.payment-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+@media (max-width: 560px) {
+  .payment-card { padding: var(--space-6); }
+  .payment-field-row { grid-template-columns: 1fr; }
+  .payment-actions { flex-direction: column-reverse; }
+  .payment-actions .btn { width: 100%; }
+}

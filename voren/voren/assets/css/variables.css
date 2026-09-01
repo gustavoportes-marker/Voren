@@ -1,0 +1,168 @@
+/* ==========================================================================
+   Voren — Design Tokens
+   Single source of truth for color, type, spacing, radius, shadow, motion.
+   Every other stylesheet reads from these variables — never hard-code
+   a raw value that already has a token here.
+   ========================================================================== */
+
+:root {
+  /* ---- Brand color ---------------------------------------------------- */
+  --color-primary-50:  #EEF2FF;
+  --color-primary-100: #E0E7FF;
+  --color-primary-200: #C7D4FE;
+  --color-primary-400: #6B85FF;
+  --color-primary-500: #4361EE;   /* core brand blue */
+  --color-primary-600: #3348D6;
+  --color-primary-700: #2635AD;
+
+  /* ---- Neutrals --------------------------------------------------------- */
+  --color-bg:            #F7F8FC;  /* app background, very light cool gray */
+  --color-bg-inset:      #F1F2F8;  /* recessed surfaces (search, inputs) */
+  --color-surface:       #FFFFFF;  /* cards, panels, popovers */
+  --color-surface-raised:#FFFFFF;
+  --color-border:         #E7E9F2;
+  --color-border-strong:  #DBDEEA;
+
+  --color-text-primary:   #14162B;  /* dark gray, near-black, not pure black */
+  --color-text-secondary: #6B7085;
+  --color-text-tertiary:  #9498AA;
+  --color-text-inverse:   #FFFFFF;
+
+  /* ---- Semantic ---------------------------------------------------------*/
+  --color-success:      #17A673;
+  --color-success-bg:   #E7F8F1;
+  --color-danger:       #E4483E;
+  --color-danger-bg:    #FDEBEA;
+  --color-warning:      #E5940D;
+  --color-warning-bg:   #FDF3E3;
+  --color-info:         #4361EE;
+  --color-info-bg:      #EEF2FF;
+
+  /* ---- Gradient (used sparingly — the ring + one hero accent only) ---- */
+  --gradient-primary: linear-gradient(135deg, #4361EE 0%, #7C5CFC 100%);
+  --gradient-primary-soft: linear-gradient(135deg, #EEF2FF 0%, #F3EFFE 100%);
+
+  /* ---- Typography --------------------------------------------------------
+     Display  → Sora     (headings, big figures, brand)
+     Body/UI  → Inter     (everything a user reads to act on)
+     Numeric  → IBM Plex Mono (currency, dates, tabular data — Stripe-style
+                                 ledger precision for money on screen)
+  ------------------------------------------------------------------------- */
+  --font-display: 'Sora', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+  --fs-2xs:  0.6875rem;  /* 11px */
+  --fs-xs:   0.75rem;    /* 12px */
+  --fs-sm:   0.8125rem;  /* 13px */
+  --fs-base: 0.9375rem;  /* 15px */
+  --fs-md:   1.0625rem;  /* 17px */
+  --fs-lg:   1.25rem;    /* 20px */
+  --fs-xl:   1.625rem;   /* 26px */
+  --fs-2xl:  2.125rem;   /* 34px */
+
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+
+  --lh-tight:  1.2;
+  --lh-normal: 1.5;
+  --lh-loose:  1.7;
+
+  /* ---- Spacing scale (4px base) ---------------------------------------- */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ---- Radius ------------------------------------------------------------*/
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+
+  /* ---- Shadow — discreet, layered, never harsh ------------------------- */
+  --shadow-xs: 0 1px 2px rgba(20, 22, 43, 0.04);
+  --shadow-sm: 0 1px 3px rgba(20, 22, 43, 0.05), 0 1px 2px rgba(20, 22, 43, 0.04);
+  --shadow-md: 0 4px 12px rgba(20, 22, 43, 0.06), 0 1px 2px rgba(20, 22, 43, 0.04);
+  --shadow-lg: 0 12px 32px rgba(20, 22, 43, 0.08), 0 2px 6px rgba(20, 22, 43, 0.04);
+  --shadow-focus: 0 0 0 3px rgba(67, 97, 238, 0.18);
+
+  /* ---- Motion ------------------------------------------------------------*/
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast:  120ms;
+  --duration-base:  200ms;
+  --duration-slow:  360ms;
+
+  /* ---- Layout ------------------------------------------------------------*/
+  --sidebar-width:        248px;
+  --sidebar-width-collapsed: 76px;
+  --topbar-height:        68px;
+  --content-max-width:    1360px;
+
+  /* ---- Z-index ------------------------------------------------------------*/
+  --z-sidebar: 100;
+  --z-topbar:  90;
+  --z-dropdown: 200;
+  --z-modal:   300;
+  --z-toast:   400;
+
+  /* ---- Tokens with a dark-mode override below --------------------------- */
+  --color-input-hover: #ECEEF6;
+  --color-topbar-bg: rgba(247, 248, 252, 0.85);
+}
+
+/* Respect reduced-motion preference across the whole app */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Dark theme
+   Redeclares a subset of the tokens above under [data-theme="dark"] on
+   <html>. Toggled by assets/js/theme.js (site-wide — see that file), set
+   from the Settings modal in dashboard.js. Every component across the
+   project is already built from these custom properties (var(--color-*)),
+   so this one block re-themes sidebar, topbar, cards, tables, inputs,
+   buttons, dropdowns, modals, badges, borders and text everywhere, on
+   every page, without duplicating a single component rule.
+   ========================================================================== */
+html[data-theme="dark"] {
+  --color-bg: #0F1120;
+  --color-bg-inset: #171A2E;
+  --color-surface: #1A1D33;
+  --color-surface-raised: #1A1D33;
+  --color-border: #2A2E4A;
+  --color-border-strong: #383D5F;
+
+  --color-text-primary: #F2F3F9;
+  --color-text-secondary: #A7ABC7;
+  --color-text-tertiary: #7A7FA0;
+
+  --color-primary-50: #1C2350;
+  --color-primary-100: #232B63;
+
+  --color-success-bg: rgba(23, 166, 115, 0.16);
+  --color-danger-bg: rgba(228, 72, 62, 0.16);
+  --color-warning-bg: rgba(229, 148, 13, 0.16);
+  --color-info-bg: rgba(67, 97, 238, 0.16);
+
+  --gradient-primary-soft: linear-gradient(135deg, #1C2350 0%, #241D4A 100%);
+
+  --color-input-hover: #1F2338;
+  --color-topbar-bg: rgba(15, 17, 32, 0.85);
+}

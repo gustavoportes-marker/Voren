@@ -1,0 +1,234 @@
+/* ==========================================================================
+   Voren — Login
+   Split layout: form on the left, brand / product story on the right.
+   Collapses to a single centered column on tablet and mobile.
+   ========================================================================== */
+
+.auth-screen {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 480px) 1fr;
+}
+
+/* ---- Left: form panel ------------------------------------------------- */
+.auth-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-10) var(--space-12);
+  background: var(--color-surface);
+}
+
+.auth-panel-inner {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-10);
+}
+
+.auth-brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.auth-brand-name {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.01em;
+}
+
+.auth-heading {
+  font-size: var(--fs-xl);
+  margin-bottom: var(--space-2);
+}
+
+.auth-subheading {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.auth-row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--fs-sm);
+}
+
+.auth-link {
+  color: var(--color-primary-500);
+  font-weight: var(--fw-medium);
+  border-radius: 4px;
+  transition: color var(--duration-base) var(--ease-out);
+}
+
+.auth-link:hover {
+  color: var(--color-primary-600);
+  text-decoration: underline;
+}
+
+.auth-divider {
+  margin: var(--space-2) 0;
+}
+
+.auth-footer-text {
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-8);
+}
+
+/* Social sign-in row (secondary path, kept quiet) */
+.auth-social-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+/* ---- Right: brand story panel ------------------------------------------ */
+.auth-showcase {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-16);
+  overflow: hidden;
+  background: linear-gradient(160deg, #EEF1FF 0%, #F7F8FC 55%, #F3EFFE 100%);
+}
+
+.auth-showcase::before,
+.auth-showcase::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.5;
+}
+
+.auth-showcase::before {
+  width: 420px;
+  height: 420px;
+  background: var(--color-primary-200);
+  top: -120px;
+  right: -140px;
+}
+
+.auth-showcase::after {
+  width: 320px;
+  height: 320px;
+  background: #D9CCFB;
+  bottom: -100px;
+  right: 160px;
+}
+
+.auth-showcase-content {
+  position: relative;
+  z-index: 1;
+  max-width: 460px;
+}
+
+.auth-showcase-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--color-primary-600);
+  background: rgba(255,255,255,0.6);
+  border: 1px solid var(--color-primary-200);
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-6);
+}
+
+.auth-showcase-title {
+  font-size: 2.5rem;
+  line-height: 1.15;
+  margin-bottom: var(--space-4);
+}
+
+.auth-showcase-text {
+  font-size: var(--fs-md);
+  color: var(--color-text-secondary);
+  line-height: var(--lh-loose);
+  margin-bottom: var(--space-10);
+}
+
+/* Mini "renewal ring" preview card — a small taste of the dashboard's
+   signature visual, echoed here so the login screen already feels like
+   the product rather than a generic gate in front of it. */
+.auth-preview-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-5);
+  max-width: 380px;
+}
+
+.auth-preview-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.auth-preview-label {
+  font-size: var(--fs-xs);
+  color: var(--color-text-tertiary);
+}
+
+.auth-preview-value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+}
+
+.auth-preview-delta {
+  font-size: var(--fs-2xs);
+  color: var(--color-success);
+  font-weight: var(--fw-medium);
+}
+
+/* ---- Responsive --------------------------------------------------------- */
+@media (max-width: 1080px) {
+  .auth-screen {
+    grid-template-columns: 1fr;
+  }
+  .auth-showcase {
+    display: none;
+  }
+  .auth-panel {
+    padding: var(--space-8) var(--space-6);
+  }
+}
+
+@media (max-width: 420px) {
+  .auth-panel {
+    padding: var(--space-6) var(--space-4);
+  }
+  .auth-showcase-title {
+    font-size: 1.9rem;
+  }
+}

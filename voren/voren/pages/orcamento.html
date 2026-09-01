@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Applies the saved global theme before first paint — must load first, unblocked, before any stylesheet. Shared by every page (see assets/js/theme.js). -->
+  <script src="../assets/js/theme.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orçamento — Voren</title>
+  <meta name="description" content="Defina um limite mensal para acompanhar quanto suas assinaturas estão consumindo." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
+  <!-- Shared design system — the exact same files dashboard.html uses,
+       linked read-only. Nothing in them is modified by this page. -->
+  <link rel="stylesheet" href="../assets/css/reset.css" />
+  <link rel="stylesheet" href="../assets/css/variables.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/components.css" />
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+
+  <!-- Only the budget card is specific to this page -->
+  <link rel="stylesheet" href="../assets/css/orcamento.css" />
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Initial loading state — same shape as the Dashboard's -->
+  <div class="page-loader" id="page-loader" role="status" aria-label="Loading">
+    <div class="page-loader-sidebar">
+      <div class="skeleton" style="width:32px; height:32px; border-radius:8px;"></div>
+      <div class="skeleton skeleton-line" style="width:70%; margin-top:28px;"></div>
+      <div class="skeleton skeleton-line" style="width:85%;"></div>
+      <div class="skeleton skeleton-line" style="width:60%;"></div>
+      <div class="skeleton skeleton-line" style="width:75%;"></div>
+    </div>
+    <div class="page-loader-main">
+      <div class="skeleton" style="height:56px; max-width:420px;"></div>
+      <div class="skeleton" style="height:360px; max-width:520px; margin:0 auto;"></div>
+    </div>
+    <span class="sr-only">Loading…</span>
+  </div>
+
+  <div class="app-shell">
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- Sidebar — identical markup/classes to dashboard.html's, so the
+         menu looks and behaves exactly the same. "Budgets" is the active
+         item here instead of "Overview". dashboard.html itself is not
+         touched by this file. -->
+    <nav class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar-brand">
+        <span class="sidebar-brand-mark" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 8 14l8-8"/></svg>
+        </span>
+        <span class="sidebar-brand-name">Voren</span>
+        <button class="sidebar-close" id="sidebar-close" aria-label="Close menu">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 5l10 10M15 5 5 15"/></svg>
+        </button>
+      </div>
+
+      <div class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-link">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="6.5" height="6.5" rx="1.4"/><rect x="11" y="2.5" width="6.5" height="6.5" rx="1.4"/><rect x="2.5" y="11" width="6.5" height="6.5" rx="1.4"/><rect x="11" y="11" width="6.5" height="6.5" rx="1.4"/></svg>
+          Overview
+        </a>
+        <a href="subscriptions.html" class="sidebar-link">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="15" height="12" rx="2"/><path d="M2.5 8h15"/></svg>
+          Subscriptions
+          <span class="link-badge">8</span>
+        </a>
+        <a href="orcamento.html" class="sidebar-link is-active" aria-current="page">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v16M2 10h16"/><circle cx="10" cy="10" r="7.5"/></svg>
+          Budgets
+        </a>
+        <a href="#" class="sidebar-link">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5V9M9 16.5V4M15 16.5v-6.5"/><path d="M2 16.5h16"/></svg>
+          Reports
+        </a>
+        <a href="payment.html" class="sidebar-link">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8V6a4 4 0 0 1 8 0v2"/><rect x="4" y="8" width="12" height="9" rx="2"/></svg>
+          Payment methods
+        </a>
+
+        <p class="sidebar-section-label">Workspace</p>
+        <a href="#" class="sidebar-link">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="6.5" r="3"/><path d="M3.5 17c0-3.5 2.9-6 6.5-6s6.5 2.5 6.5 6"/></svg>
+          Team
+        </a>
+        <a href="#" class="sidebar-link">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.5"/><path d="M10 6.5v4l2.8 1.6"/></svg>
+          Activity log
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-plan-card">
+          <p class="sidebar-plan-title">Growth plan</p>
+          <p class="sidebar-plan-text">Tracking 8 of 25 subscriptions.</p>
+          <button class="btn btn-secondary" style="height: 34px; font-size: var(--fs-xs); width: 100%;">Manage plan</button>
+        </div>
+      </div>
+    </nav>
+
+    <div>
+      <!-- Topbar — identical markup to dashboard.html's -->
+      <header class="topbar">
+        <button class="topbar-menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h14M3 10h14M3 14h14"/></svg>
+        </button>
+
+        <div class="topbar-search">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M17 17l-3.5-3.5"/></svg>
+          <label for="global-search" class="sr-only">Search</label>
+          <input type="search" id="global-search" placeholder="Search subscriptions, payments…" autocomplete="off" />
+          <span class="kbd-hint" aria-hidden="true">⌘K</span>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="notif-wrap">
+            <button class="btn-icon" id="notif-trigger" aria-label="Notifications" aria-haspopup="true" aria-expanded="false" aria-controls="notif-dropdown">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8a5 5 0 0 1 10 0v3.5l1.5 2.5h-13L5 11.5Z"/><path d="M8 16.5a2 2 0 0 0 4 0"/></svg>
+              <span class="notif-dot" aria-hidden="true"></span>
+            </button>
+            <div class="notif-dropdown" id="notif-dropdown" role="menu" aria-label="Notifications">
+              <div class="notif-dropdown-header">
+                <h3>Notifications</h3>
+                <button class="btn-ghost" style="height:28px; padding:0 8px; font-size:var(--fs-2xs);">Mark all read</button>
+              </div>
+              <div class="notif-list">
+                <div class="notif-item" role="menuitem">
+                  <span class="notif-icon" style="background:var(--color-warning-bg); color:var(--color-warning);">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 2 17h16Z"/><path d="M10 8v3.5M10 14h.01"/></svg>
+                  </span>
+                  <div>
+                    <p class="notif-text"><strong>Netflix</strong> renews in 3 days for R$ 22,99.</p>
+                    <p class="notif-time">2 hours ago</p>
+                  </div>
+                </div>
+                <div class="notif-item" role="menuitem">
+                  <span class="notif-icon" style="background:var(--color-info-bg); color:var(--color-primary-500);">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h14M11 4l6 6-6 6"/></svg>
+                  </span>
+                  <div>
+                    <p class="notif-text"><strong>Adobe CC</strong> price increased from R$ 49,99 to R$ 54,99.</p>
+                    <p class="notif-time">Yesterday</p>
+                  </div>
+                </div>
+                <div class="notif-item" role="menuitem">
+                  <span class="notif-icon" style="background:var(--color-success-bg); color:var(--color-success);">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.7 5.3 8 14l-3.7-3.7"/></svg>
+                  </span>
+                  <div>
+                    <p class="notif-text"><strong>Hulu</strong> was canceled successfully.</p>
+                    <p class="notif-time">3 days ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-wrap">
+            <button class="profile-trigger" id="profile-trigger" aria-label="Account menu" aria-haspopup="true" aria-expanded="false" aria-controls="profile-dropdown">
+              <span class="avatar avatar-sm" aria-hidden="true">JM</span>
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5 10 12l5-4.5"/></svg>
+            </button>
+            <div class="profile-dropdown" id="profile-dropdown" role="menu" aria-label="Account menu">
+              <div class="profile-dropdown-header">
+                <span class="avatar avatar-md" aria-hidden="true">JM</span>
+                <div>
+                  <p class="profile-dropdown-name">Jordan Myers</p>
+                  <p class="profile-dropdown-email">jordan@voren.io</p>
+                </div>
+              </div>
+              <div class="profile-dropdown-divider"></div>
+              <button class="profile-menu-item" role="menuitem">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="6.5" r="3.5"/><path d="M3.5 17c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6"/></svg>
+                Your profile
+              </button>
+              <button class="profile-menu-item" role="menuitem">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a4 4 0 0 1 8 0v2"/><rect x="2" y="8" width="12" height="9" rx="2"/></svg>
+                Billing
+              </button>
+              <button class="profile-menu-item" role="menuitem">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="2.3"/><path d="M10 2.5v2M10 15.5v2M17.5 10h-2M4.5 10h-2M15.1 4.9l-1.4 1.4M6.3 13.7l-1.4 1.4M15.1 15.1l-1.4-1.4M6.3 6.3 4.9 4.9"/></svg>
+                Settings
+              </button>
+              <div class="profile-dropdown-divider"></div>
+              <button class="profile-menu-item danger" role="menuitem">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 17.5h-3a1.5 1.5 0 0 1-1.5-1.5v-12A1.5 1.5 0 0 1 4.5 2.5h3M13 14l4-4-4-4M17 10H7"/></svg>
+                Sign out
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main content — this page's own content, the only part that
+           differs from dashboard.html -->
+      <main class="main-content" id="main-content">
+        <div class="page-header fade-in-up">
+          <div>
+            <h1 class="page-title">Orçamento</h1>
+            <p class="page-subtitle">Defina um limite mensal para acompanhar quanto suas assinaturas estão consumindo.</p>
+          </div>
+        </div>
+
+        <div class="budget-page-wrap">
+          <section class="card budget-card fade-in-up" aria-label="Orçamento mensal">
+            <form id="budget-form" novalidate>
+              <label class="budget-field-label" for="budget-amount">Orçamento mensal</label>
+              <div class="budget-amount-wrap">
+                <span class="budget-amount-prefix" aria-hidden="true">R$</span>
+                <input
+                  class="budget-amount-input"
+                  type="number"
+                  id="budget-amount"
+                  name="budgetAmount"
+                  step="0.01"
+                  min="0"
+                  placeholder="700,00"
+                  inputmode="decimal"
+                  aria-describedby="budget-amount-error"
+                  aria-invalid="false"
+                />
+              </div>
+              <p class="budget-field-error" id="budget-amount-error" role="alert"></p>
+
+              <p class="budget-helper-text">
+                O Voren utilizará este valor para calcular automaticamente quanto do seu orçamento está sendo utilizado pelas assinaturas.
+              </p>
+
+              <p class="budget-saved-note" id="budget-saved-note" hidden>
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.7 5.3 8 14l-3.7-3.7"/></svg>
+                <span id="budget-saved-note-text"></span>
+              </p>
+
+              <div class="budget-actions">
+                <button type="button" class="btn btn-secondary" id="budget-cancel-btn">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="budget-save-btn">Salvar orçamento</button>
+              </div>
+            </form>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/orcamento.js"></script>
+</body>
+</html>

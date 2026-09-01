@@ -1,0 +1,144 @@
+/* ==========================================================================
+   Voren — Orçamento
+   Used only by pages/orcamento.html, on top of the existing dashboard.css
+   (linked read-only for the sidebar/topbar shell, cards, buttons, fields —
+   nothing in that file is touched or duplicated here). This file adds only
+   what's specific to the single budget card on this page.
+   ========================================================================== */
+
+.budget-page-wrap {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar focus-ring fix
+   The global :focus-visible rule (reset.css) draws its outline with a
+   fixed 4px border-radius. .sidebar-link itself is rounded with
+   var(--radius-md) (12px), so on this page — right after clicking a link
+   like "Subscriptions" — the browser's focus outline showed up as a
+   sharp-cornered box sitting slightly off the link's actual rounded
+   shape, reading as a stray block around it. This scopes the outline's
+   radius to match the link it's drawn around; nothing else about the
+   link (colors, hover, active state, navigation) changes.
+   -------------------------------------------------------------------------- */
+.sidebar-link:focus-visible {
+  border-radius: var(--radius-md);
+}
+
+.budget-card {
+  width: 100%;
+  max-width: 520px;
+  padding: var(--space-8);
+}
+
+.budget-field-label {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+  display: block;
+}
+
+/* The monthly amount is the one thing this page is for, so it gets the
+   largest, most prominent input on the page — everything else here is
+   quiet by comparison. */
+.budget-amount-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.budget-amount-prefix {
+  position: absolute;
+  left: var(--space-5);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-tertiary);
+  pointer-events: none;
+}
+
+.budget-amount-input {
+  width: 100%;
+  height: 72px;
+  padding: 0 var(--space-5) 0 calc(var(--space-5) + 56px);
+  background: var(--color-bg-inset);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-primary);
+  transition: border-color var(--duration-base) var(--ease-out),
+              background-color var(--duration-base) var(--ease-out),
+              box-shadow var(--duration-base) var(--ease-out);
+}
+
+.budget-amount-input::placeholder {
+  color: var(--color-text-tertiary);
+  font-weight: var(--fw-medium);
+}
+
+.budget-amount-input:hover { background: var(--color-input-hover); }
+
+.budget-amount-input:focus {
+  background: var(--color-surface);
+  border-color: var(--color-primary-400);
+  box-shadow: var(--shadow-focus);
+  outline: none;
+}
+
+.budget-amount-input[aria-invalid="true"] {
+  background: var(--color-danger-bg);
+  border-color: var(--color-danger);
+}
+
+.budget-amount-wrap:focus-within .budget-amount-prefix {
+  color: var(--color-primary-500);
+}
+
+.budget-field-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  color: var(--color-danger);
+  min-height: 18px;
+  margin-top: var(--space-2);
+}
+
+.budget-helper-text {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--lh-loose);
+  margin-top: var(--space-4);
+}
+
+.budget-saved-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  color: var(--color-text-tertiary);
+  margin-top: var(--space-3);
+}
+
+.budget-saved-note svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+.budget-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+@media (max-width: 560px) {
+  .budget-card { padding: var(--space-6); }
+  .budget-amount-input { height: 64px; }
+  .budget-actions { flex-direction: column-reverse; }
+  .budget-actions .btn { width: 100%; }
+}

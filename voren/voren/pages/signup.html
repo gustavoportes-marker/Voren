@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Applies the saved global theme before first paint — must load first, unblocked, before any stylesheet. Shared by every page (see assets/js/theme.js). -->
+  <script src="../assets/js/theme.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create your account — Voren</title>
+  <meta name="description" content="Create your Voren account and start managing your subscriptions in one place." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
+  <!-- Shared design system — same files used by login.html and dashboard.html -->
+  <link rel="stylesheet" href="../assets/css/reset.css" />
+  <link rel="stylesheet" href="../assets/css/variables.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/components.css" />
+
+  <!-- Reuses the login screen's split-layout, brand mark and form styles
+       as-is (read-only) — the auth-* classes below all come from here. -->
+  <link rel="stylesheet" href="../assets/css/login.css" />
+
+  <!-- Small additions specific to this page only -->
+  <link rel="stylesheet" href="../assets/css/signup.css" />
+</head>
+<body>
+  <a href="#signup-form" class="skip-link">Skip to sign-up form</a>
+
+  <main class="auth-screen">
+    <!-- Form panel -->
+    <section class="auth-panel" aria-label="Create your account">
+      <div class="auth-panel-inner signup-panel-inner">
+        <a href="login.html" class="auth-brand" aria-label="Voren home">
+          <span class="auth-brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 8 14l8-8"/></svg>
+          </span>
+          <span class="auth-brand-name">Voren</span>
+        </a>
+
+        <h1 class="auth-heading">Create your account</h1>
+        <p class="auth-subheading">Start managing your subscriptions in one place.</p>
+
+        <form id="signup-form" class="auth-form" novalidate>
+          <div class="field">
+            <label class="field-label" for="full-name">Full name</label>
+            <div class="field-input-wrap">
+              <svg class="field-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="6.5" r="3"/><path d="M3.5 17c0-3.5 2.9-6 6.5-6s6.5 2.5 6.5 6"/></svg>
+              <input
+                class="field-input"
+                type="text"
+                id="full-name"
+                name="fullName"
+                placeholder="Jordan Myers"
+                autocomplete="name"
+                aria-describedby="full-name-error"
+                aria-invalid="false"
+                required
+              />
+            </div>
+            <p class="field-error" id="full-name-error" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="email">Email address</label>
+            <div class="field-input-wrap">
+              <svg class="field-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="11" rx="2"/><path d="M3 5.5 10 11l7-5.5"/></svg>
+              <input
+                class="field-input"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@company.com"
+                autocomplete="email"
+                aria-describedby="email-error"
+                aria-invalid="false"
+                required
+              />
+            </div>
+            <p class="field-error" id="email-error" role="alert"></p>
+          </div>
+
+          <div class="signup-field-row">
+            <div class="field">
+              <label class="field-label" for="password">Password</label>
+              <div class="field-input-wrap">
+                <svg class="field-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9"/></svg>
+                <input
+                  class="field-input"
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Create a password"
+                  autocomplete="new-password"
+                  aria-describedby="password-error password-hint"
+                  aria-invalid="false"
+                  required
+                  style="padding-right: 44px;"
+                />
+                <button class="field-toggle-visibility" type="button" id="toggle-password" aria-label="Show password">
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 10S4.5 4 10 4s8.5 6 8.5 6-3 6-8.5 6-8.5-6-8.5-6Z"/><circle cx="10" cy="10" r="2.5"/></svg>
+                </button>
+              </div>
+              <p class="field-error" id="password-error" role="alert"></p>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="confirm-password">Confirm password</label>
+              <div class="field-input-wrap">
+                <svg class="field-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9"/></svg>
+                <input
+                  class="field-input"
+                  type="password"
+                  id="confirm-password"
+                  name="confirmPassword"
+                  placeholder="Repeat your password"
+                  autocomplete="new-password"
+                  aria-describedby="confirm-password-error"
+                  aria-invalid="false"
+                  required
+                  style="padding-right: 44px;"
+                />
+                <button class="field-toggle-visibility" type="button" id="toggle-confirm-password" aria-label="Show password">
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 10S4.5 4 10 4s8.5 6 8.5 6-3 6-8.5 6-8.5-6-8.5-6Z"/><circle cx="10" cy="10" r="2.5"/></svg>
+                </button>
+              </div>
+              <p class="field-error" id="confirm-password-error" role="alert"></p>
+            </div>
+          </div>
+
+          <p class="field-hint signup-password-hint" id="password-hint">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 9v4.5M10 6.8h.01"/></svg>
+            At least 8 characters, with a letter and a number.
+          </p>
+
+          <button type="submit" class="btn btn-primary btn-block" id="submit-btn">
+            <span class="spinner" hidden></span>
+            <span class="btn-label">Create account</span>
+          </button>
+        </form>
+
+        <p class="auth-footer-text">
+          Already have an account? <a href="login.html" class="auth-link">Log in</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Brand / product showcase panel — same visual language as login.html -->
+    <aside class="auth-showcase" aria-hidden="true">
+      <div class="auth-showcase-content">
+        <span class="auth-showcase-eyebrow">
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 2v3M10 15v3M4.2 4.2l2.1 2.1M13.7 13.7l2.1 2.1M2 10h3M15 10h3M4.2 15.8l2.1-2.1M13.7 6.3l2.1-2.1"/></svg>
+          Subscription tracking
+        </span>
+        <h2 class="auth-showcase-title">Set up in minutes. See everything on day one.</h2>
+        <p class="auth-showcase-text">
+          Connect your subscriptions, set a monthly budget, and get a clear picture
+          of every renewal before it charges your card.
+        </p>
+
+        <div class="auth-preview-card">
+          <div
+            aria-hidden="true"
+            style="
+              position: relative;
+              width: 88px;
+              height: 88px;
+              border-radius: 50%;
+              flex-shrink: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: conic-gradient(var(--color-primary-500) 40%, var(--color-bg-inset) 0);
+            "
+          >
+            <div style="position: absolute; inset: 10px; border-radius: 50%; background: var(--color-surface);"></div>
+            <span style="position: relative; font-family: var(--font-mono); font-size: var(--fs-md); font-weight: var(--fw-semibold);">40%</span>
+          </div>
+          <div class="auth-preview-stats">
+            <span class="auth-preview-label">Free plan usage</span>
+            <span class="auth-preview-value">2 of 5</span>
+            <span class="auth-preview-delta">Projects tracked</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/signup.js"></script>
+</body>
+</html>

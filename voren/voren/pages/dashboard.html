@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Voren</title>
+  <meta name="description" content="Track monthly spending, active subscriptions, and upcoming payments in Voren." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../assets/css/reset.css" />
+  <link rel="stylesheet" href="../assets/css/variables.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/components.css" />
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+  <!-- Applies the saved theme before first paint (see assets/js/theme.js) -->
+  <script src="../assets/js/theme.js"></script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Initial loading state — swapped out for real content once data is ready -->
+  <div class="page-loader" id="page-loader" role="status" aria-label="Loading your dashboard">
+    <div class="page-loader-sidebar">
+      <div class="skeleton" style="width:32px; height:32px; border-radius:8px;"></div>
+      <div class="skeleton skeleton-line" style="width:70%; margin-top:28px;"></div>
+      <div class="skeleton skeleton-line" style="width:85%;"></div>
+      <div class="skeleton skeleton-line" style="width:60%;"></div>
+      <div class="skeleton skeleton-line" style="width:75%;"></div>
+    </div>
+    <div class="page-loader-main">
+      <div class="page-loader-stats">
+        <div class="skeleton" style="height:126px;"></div>
+        <div class="skeleton" style="height:126px;"></div>
+        <div class="skeleton" style="height:126px;"></div>
+        <div class="skeleton" style="height:126px;"></div>
+      </div>
+      <div class="skeleton" style="height:280px;"></div>
+      <div class="skeleton" style="height:220px;"></div>
+    </div>
+    <span class="sr-only">Loading your dashboard…</span>
+  </div>
+
+  <div class="app-shell">
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar-brand">
+        <span class="sidebar-brand-mark" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 8 14l8-8"/></svg>
+        </span>
+        <span class="sidebar-brand-name">Voren</span>
+        <button class="sidebar-close" id="sidebar-close" aria-label="Close menu">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 5l10 10M15 5 5 15"/></svg>
+        </button>
+      </div>
+
+      <div class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-link is-active" aria-current="page">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="6.5" height="6.5" rx="1.4"/><rect x="11" y="2.5" width="6.5" height="6.5" rx="1.4"/><rect x="2.5" y="11" width="6.5" height="6.5" rx="1.4"/><rect x="11" y="11" width="6.5" height="6.5" rx="1.4"/></svg>
+          Overview
+        </a>
+        <a href="subscriptions.html" class="sidebar-link">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="15" height="12" rx="2"/><path d="M2.5 8h15"/></svg>
+          Subscriptions
+          <span class="link-badge" id="sidebar-subscriptions-count">8</span>
+        </a>
+        <a href="orcamento.html" class="sidebar-link">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v16M2 10h16"/><circle cx="10" cy="10" r="7.5"/></svg>
+          Budgets
+        </a>
+        <a href="#" class="sidebar-link">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5V9M9 16.5V4M15 16.5v-6.5"/><path d="M2 16.5h16"/></svg>
+          Reports
+        </a>
+        <a href="payment.html" class="sidebar-link">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8V6a4 4 0 0 1 8 0v2"/><rect x="4" y="8" width="12" height="9" rx="2"/></svg>
+          Payment methods
+        </a>
+
+        <p class="sidebar-section-label">Workspace</p>
+        <a href="#" class="sidebar-link">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="6.5" r="3"/><path d="M3.5 17c0-3.5 2.9-6 6.5-6s6.5 2.5 6.5 6"/></svg>
+          Team
+        </a>
+        <a href="#" class="sidebar-link">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.5"/><path d="M10 6.5v4l2.8 1.6"/></svg>
+          Activity log
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-plan-card">
+          <p class="sidebar-plan-title">Growth plan</p>
+          <p class="sidebar-plan-text">Tracking 8 of 25 subscriptions.</p>
+          <button class="btn btn-secondary" style="height: 34px; font-size: var(--fs-xs); width: 100%;">Manage plan</button>
+        </div>
+      </div>
+    </nav>
+
+    <div>
+      <!-- Topbar -->
+      <header class="topbar">
+        <button class="topbar-menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h14M3 10h14M3 14h14"/></svg>
+        </button>
+
+        <div class="topbar-search">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M17 17l-3.5-3.5"/></svg>
+          <label for="global-search" class="sr-only">Search subscriptions</label>
+          <input type="search" id="global-search" placeholder="Search subscriptions, payments…" autocomplete="off" />
+          <span class="kbd-hint" aria-hidden="true">⌘K</span>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="notif-wrap">
+            <button class="btn-icon" id="notif-trigger" aria-label="Notifications" aria-haspopup="true" aria-expanded="false" aria-controls="notif-dropdown">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8a5 5 0 0 1 10 0v3.5l1.5 2.5h-13L5 11.5Z"/><path d="M8 16.5a2 2 0 0 0 4 0"/></svg>
+              <span class="notif-dot" aria-hidden="true"></span>
+            </button>
+            <div class="notif-dropdown" id="notif-dropdown" role="menu" aria-label="Notifications">
+              <div class="notif-dropdown-header">
+                <h3>Notifications</h3>
+                <button class="btn-ghost" style="height:28px; padding:0 8px; font-size:var(--fs-2xs);">Mark all read</button>
+              </div>
+              <div class="notif-list">
+                <div class="notif-item" role="menuitem">
+                  <span class="notif-icon" style="background:var(--color-warning-bg); color:var(--color-warning);">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 2 17h16Z"/><path d="M10 8v3.5M10 14h.01"/></svg>
+                  </span>
+                  <div>
+                    <p class="notif-text"><strong>Netflix</strong> renews in 3 days for R$ 22,99.</p>
+                    <p class="notif-time">2 hours ago</p>
+                  </div>
+                </div>
+                <div class="notif-item" role="menuitem">
+                  <span class="notif-icon" style="background:var(--color-info-bg); color:var(--color-primary-500);">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h14M11 4l6 6-6 6"/></svg>
+                  </span>
+                  <div>
+                    <p class="notif-text"><strong>Adobe CC</strong> price increased from R$ 49,99 to R$ 54,99.</p>
+                    <p class="notif-time">Yesterday</p>
+                  </div>
+                </div>
+                <div class="notif-item" role="menuitem">
+                  <span class="notif-icon" style="background:var(--color-success-bg); color:var(--color-success);">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.7 5.3 8 14l-3.7-3.7"/></svg>
+                  </span>
+                  <div>
+                    <p class="notif-text"><strong>Hulu</strong> was canceled successfully.</p>
+                    <p class="notif-time">3 days ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-wrap">
+            <button class="profile-trigger" id="profile-trigger" aria-label="Account menu" aria-haspopup="true" aria-expanded="false" aria-controls="profile-dropdown">
+              <span class="avatar avatar-sm" id="topbar-avatar-initials" aria-hidden="true">JM</span>
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7.5 10 12l5-4.5"/></svg>
+            </button>
+            <div class="profile-dropdown" id="profile-dropdown" role="menu" aria-label="Account menu">
+              <div class="profile-dropdown-header">
+                <span class="avatar avatar-md" id="profile-avatar-initials" aria-hidden="true">JM</span>
+                <div>
+                  <p class="profile-dropdown-name" id="profile-dropdown-name">Jordan Myers</p>
+                  <p class="profile-dropdown-email" id="profile-dropdown-email">jordan@voren.io</p>
+                </div>
+              </div>
+              <div class="profile-dropdown-divider"></div>
+              <button class="profile-menu-item" role="menuitem" id="menu-your-profile">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="6.5" r="3.5"/><path d="M3.5 17c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6"/></svg>
+                Your profile
+              </button>
+              <button class="profile-menu-item" role="menuitem" id="menu-billing">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a4 4 0 0 1 8 0v2"/><rect x="2" y="8" width="12" height="9" rx="2"/></svg>
+                Billing
+              </button>
+              <button class="profile-menu-item" role="menuitem" id="menu-settings">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="2.3"/><path d="M10 2.5v2M10 15.5v2M17.5 10h-2M4.5 10h-2M15.1 4.9l-1.4 1.4M6.3 13.7l-1.4 1.4M15.1 15.1l-1.4-1.4M6.3 6.3 4.9 4.9"/></svg>
+                Settings
+              </button>
+              <div class="profile-dropdown-divider"></div>
+              <button class="profile-menu-item danger" role="menuitem" id="menu-sign-out">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 17.5h-3a1.5 1.5 0 0 1-1.5-1.5v-12A1.5 1.5 0 0 1 4.5 2.5h3M13 14l4-4-4-4M17 10H7"/></svg>
+                Sign out
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main content -->
+      <main class="main-content" id="main-content">
+        <div class="page-header fade-in-up">
+          <div>
+            <h1 class="page-title">Overview</h1>
+            <p class="page-subtitle">Here's what's happening with your subscriptions today.</p>
+          </div>
+          <div style="display:flex; gap: var(--space-3);">
+            <button class="btn btn-secondary" data-quick-action="Export report">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12.5V3M6.5 9l3.5 3.5L13.5 9"/><path d="M3.5 14v2a1.5 1.5 0 0 0 1.5 1.5h10a1.5 1.5 0 0 0 1.5-1.5v-2"/></svg>
+              Export
+            </button>
+            <button class="btn btn-primary" data-quick-action="Add subscription">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4.5v11M4.5 10h11"/></svg>
+              Add subscription
+            </button>
+          </div>
+        </div>
+
+        <!-- Stat cards -->
+        <section class="stat-grid" aria-label="Key metrics">
+          <div class="card stat-card fade-in-up" style="animation-delay: 40ms;">
+            <div class="stat-card-top">
+              <span class="stat-icon tint-blue" aria-hidden="true">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 1.7v16.6M14.5 5H8.3a2.5 2.5 0 0 0 0 5h3.4a2.5 2.5 0 0 1 0 5H5"/></svg>
+              </span>
+              <span class="tooltip" data-tooltip="Sum of all active subscriptions this month">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" style="color:var(--color-text-tertiary);"><circle cx="10" cy="10" r="7.5"/><path d="M10 9v4.5M10 6.8h.01"/></svg>
+              </span>
+            </div>
+            <span class="stat-label">Monthly spending</span>
+            <span class="stat-value numeric" id="stat-monthly-spending">R$ 412,30</span>
+            <span class="stat-delta up">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14 10 6l6 8"/></svg>
+              8.2% vs last month
+            </span>
+          </div>
+
+          <div class="card stat-card fade-in-up" style="animation-delay: 90ms;">
+            <div class="stat-card-top">
+              <span class="stat-icon tint-purple" aria-hidden="true">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="15" height="12" rx="2"/><path d="M2.5 8h15"/></svg>
+              </span>
+            </div>
+            <span class="stat-label">Active subscriptions</span>
+            <span class="stat-value numeric" id="stat-active-subscriptions">7</span>
+            <span class="stat-delta up">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14 10 6l6 8"/></svg>
+              2 added this month
+            </span>
+          </div>
+
+          <div class="card stat-card fade-in-up" style="animation-delay: 140ms;">
+            <div class="stat-card-top">
+              <span class="stat-icon tint-amber" aria-hidden="true">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3.5" width="15" height="14" rx="2"/><path d="M2.5 8h15M6.5 2v3M13.5 2v3"/></svg>
+              </span>
+            </div>
+            <span class="stat-label">Upcoming payments</span>
+            <span class="stat-value numeric" id="stat-upcoming-payments">R$ 107,31</span>
+            <span class="stat-delta flat" id="stat-upcoming-payments-delta">Next 7 days · 3 charges</span>
+          </div>
+
+          <div class="card stat-card fade-in-up" style="animation-delay: 190ms;">
+            <div class="stat-card-top">
+              <span class="stat-icon tint-green" aria-hidden="true">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 1.7v16.6M14.5 5H8.3a2.5 2.5 0 0 0 0 5h3.4a2.5 2.5 0 0 1 0 5H5"/></svg>
+              </span>
+            </div>
+            <span class="stat-label">Savings this year</span>
+            <span class="stat-value numeric">R$ 186,00</span>
+            <span class="stat-delta down">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l6 8 6-8"/></svg>
+              From 2 canceled plans
+            </span>
+          </div>
+        </section>
+
+        <!-- Content grid -->
+        <div class="content-grid">
+          <!-- Main column -->
+          <div class="stack">
+            <section class="card card-body fade-in-up" aria-label="Spending trend">
+              <div class="card-header">
+                <div>
+                  <h2 class="card-title">Spending trend</h2>
+                  <p class="card-subtitle">Last 6 months</p>
+                </div>
+                <div class="chart-legend">
+                  <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:var(--color-primary-200)"></span>Past months</span>
+                  <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:var(--color-primary-500)"></span>This month</span>
+                </div>
+              </div>
+
+              <div class="bar-chart" id="bar-chart" role="img" aria-label="Bar chart of monthly spending. No historical data is available yet for past months; only the current month reflects real data." aria-describedby="bar-chart-note">
+                <div class="bar-chart-col" title="Sem dados históricos disponíveis">
+                  <div class="bar-chart-track"><div class="bar-chart-fill" style="height:0%;"></div></div>
+                  <span class="bar-chart-label">Feb</span>
+                </div>
+                <div class="bar-chart-col" title="Sem dados históricos disponíveis">
+                  <div class="bar-chart-track"><div class="bar-chart-fill" style="height:0%;"></div></div>
+                  <span class="bar-chart-label">Mar</span>
+                </div>
+                <div class="bar-chart-col" title="Sem dados históricos disponíveis">
+                  <div class="bar-chart-track"><div class="bar-chart-fill" style="height:0%;"></div></div>
+                  <span class="bar-chart-label">Apr</span>
+                </div>
+                <div class="bar-chart-col" title="Sem dados históricos disponíveis">
+                  <div class="bar-chart-track"><div class="bar-chart-fill" style="height:0%;"></div></div>
+                  <span class="bar-chart-label">May</span>
+                </div>
+                <div class="bar-chart-col" title="Sem dados históricos disponíveis">
+                  <div class="bar-chart-track"><div class="bar-chart-fill" style="height:0%;"></div></div>
+                  <span class="bar-chart-label">Jun</span>
+                </div>
+                <div class="bar-chart-col is-current" title="Gasto real deste mês em relação ao orçamento">
+                  <div class="bar-chart-track"><div class="bar-chart-fill" id="bar-chart-current-fill" style="height:0%;"></div></div>
+                  <span class="bar-chart-label">Jul</span>
+                </div>
+              </div>
+              <p id="bar-chart-note" style="font-size: var(--fs-2xs); color: var(--color-text-tertiary); margin-top: var(--space-3);">
+                Histórico mensal ainda não é rastreado — apenas o mês atual reflete dados reais.
+              </p>
+            </section>
+
+            <section class="card card-body fade-in-up" aria-label="Subscriptions list">
+              <div class="card-header" style="margin-bottom: var(--space-4);">
+                <div>
+                  <h2 class="card-title">Your subscriptions</h2>
+                  <p class="card-subtitle">8 total · 7 active</p>
+                </div>
+              </div>
+
+              <div class="table-toolbar">
+                <button class="chip is-active" data-filter="all">All</button>
+                <button class="chip" data-filter="active">Active</button>
+                <button class="chip" data-filter="trial">Trial</button>
+                <button class="chip" data-filter="canceled">Canceled</button>
+                <div style="margin-left:auto; position:relative; width: 200px;">
+                  <label for="sub-search" class="sr-only">Search your subscriptions</label>
+                  <input id="sub-search" type="search" placeholder="Filter by name…" class="field-input" style="height:32px; padding-left: var(--space-3); font-size: var(--fs-xs);" />
+                </div>
+              </div>
+
+              <div style="overflow-x:auto;">
+                <table class="sub-table">
+                  <caption class="sr-only">List of subscriptions with status, renewal date, and monthly cost</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Service</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Renewal</th>
+                      <th scope="col">Cost</th>
+                      <th scope="col"><span class="sr-only">Actions</span></th>
+                    </tr>
+                  </thead>
+                  <tbody id="subscriptions-body"></tbody>
+                </table>
+              </div>
+
+              <div class="empty-state" id="subscriptions-empty" hidden>
+                <svg class="empty-state-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M17 17l-3.5-3.5"/></svg>
+                <p class="empty-state-title">No subscriptions match</p>
+                <p class="empty-state-text">Try a different filter or search term — or add a new subscription to start tracking it here.</p>
+              </div>
+            </section>
+          </div>
+
+          <!-- Side column -->
+          <div class="stack">
+            <section class="card card-body fade-in-up" aria-label="Monthly budget">
+              <div class="card-header">
+                <h2 class="card-title">Monthly budget</h2>
+              </div>
+              <div class="budget-ring-wrap">
+                <div class="budget-ring" id="budget-ring" style="--pct: 62;" role="img" aria-label="62 percent of monthly budget used">
+                  <div class="budget-ring-center">
+                    <span class="budget-ring-pct numeric" id="budget-ring-pct">62%</span>
+                    <span class="budget-ring-caption">used</span>
+                  </div>
+                </div>
+                <div class="budget-ring-summary">
+                  <div class="budget-ring-summary-item">
+                    <p class="budget-ring-summary-label">Budget</p>
+                    <p class="budget-ring-summary-value numeric" id="budget-ring-value-budget">R$ 665,00</p>
+                  </div>
+                  <div class="budget-ring-summary-item">
+                    <p class="budget-ring-summary-label">Spent</p>
+                    <p class="budget-ring-summary-value numeric" id="budget-ring-value-spent">R$ 412,00</p>
+                  </div>
+                  <div class="budget-ring-summary-item">
+                    <p class="budget-ring-summary-label">Left</p>
+                    <p class="budget-ring-summary-value numeric" id="budget-ring-value-left">R$ 253,00</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="card card-body fade-in-up" aria-label="Upcoming payments">
+              <div class="card-header" style="margin-bottom: var(--space-3);">
+                <h2 class="card-title">Upcoming payments</h2>
+              </div>
+              <div id="upcoming-payments-list">
+                <div class="upcoming-item">
+                  <div class="upcoming-date"><span class="day numeric">29</span><span class="mon">Jul</span></div>
+                  <div class="upcoming-info">
+                    <p class="upcoming-name">AWS</p>
+                    <p class="upcoming-plan">Pay as you go</p>
+                  </div>
+                  <span class="upcoming-amount">R$ 84,32</span>
+                </div>
+                <div class="upcoming-item">
+                  <div class="upcoming-date"><span class="day numeric">29</span><span class="mon">Jul</span></div>
+                  <div class="upcoming-info">
+                    <p class="upcoming-name">Netflix</p>
+                    <p class="upcoming-plan">Premium</p>
+                  </div>
+                  <span class="upcoming-amount">R$ 22,99</span>
+                </div>
+                <div class="upcoming-item">
+                  <div class="upcoming-date"><span class="day numeric">4</span><span class="mon">Aug</span></div>
+                  <div class="upcoming-info">
+                    <p class="upcoming-name">Spotify</p>
+                    <p class="upcoming-plan">Family</p>
+                  </div>
+                  <span class="upcoming-amount">R$ 16,99</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="card card-body fade-in-up" aria-label="Quick actions">
+              <div class="card-header" style="margin-bottom: var(--space-3);">
+                <h2 class="card-title">Quick actions</h2>
+              </div>
+              <div class="quick-actions-grid">
+                <button class="quick-action" data-quick-action="Add subscription">
+                  <span class="quick-action-icon"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4.5v11M4.5 10h11"/></svg></span>
+                  <span class="quick-action-label">Add subscription</span>
+                </button>
+                <button class="quick-action" data-quick-action="Set a budget">
+                  <span class="quick-action-icon"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v16M2 10h16"/><circle cx="10" cy="10" r="7.5"/></svg></span>
+                  <span class="quick-action-label">Set a budget</span>
+                </button>
+                <button class="quick-action" data-quick-action="Invite teammate">
+                  <span class="quick-action-icon"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="6.5" r="3"/><path d="M3.5 17c0-3.5 2.9-6 6.5-6s6.5 2.5 6.5 6"/></svg></span>
+                  <span class="quick-action-label">Invite teammate</span>
+                </button>
+                <button class="quick-action" data-quick-action="Export report">
+                  <span class="quick-action-icon"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12.5V3M6.5 9l3.5 3.5L13.5 9"/><path d="M3.5 14v2a1.5 1.5 0 0 0 1.5 1.5h10a1.5 1.5 0 0 0 1.5-1.5v-2"/></svg></span>
+                  <span class="quick-action-label">Export report</span>
+                </button>
+              </div>
+            </section>
+
+            <section class="card card-body fade-in-up" aria-label="Recent activity">
+              <div class="card-header" style="margin-bottom: var(--space-2);">
+                <h2 class="card-title">Recent activity</h2>
+              </div>
+              <div class="activity-list">
+                <div class="activity-item">
+                  <span class="activity-icon" style="background:var(--color-danger-bg); color:var(--color-danger);" aria-hidden="true">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><path d="M7.5 7.5l5 5m0-5-5 5"/></svg>
+                  </span>
+                  <div>
+                    <p class="activity-text"><strong>Hulu</strong> subscription canceled</p>
+                    <p class="activity-time">3 days ago</p>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <span class="activity-icon" style="background:var(--color-info-bg); color:var(--color-primary-500);" aria-hidden="true">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4.5v11M4.5 10h11"/></svg>
+                  </span>
+                  <div>
+                    <p class="activity-text"><strong>ChatGPT Plus</strong> trial started</p>
+                    <p class="activity-time">5 days ago</p>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <span class="activity-icon" style="background:var(--color-warning-bg); color:var(--color-warning);" aria-hidden="true">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 2 17h16Z"/><path d="M10 8v3.5M10 14h.01"/></svg>
+                  </span>
+                  <div>
+                    <p class="activity-text"><strong>Adobe CC</strong> price changed to R$ 54,99</p>
+                    <p class="activity-time">1 week ago</p>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <span class="activity-icon" style="background:var(--color-success-bg); color:var(--color-success);" aria-hidden="true">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.7 5.3 8 14l-3.7-3.7"/></svg>
+                  </span>
+                  <div>
+                    <p class="activity-text"><strong>AWS</strong> payment succeeded</p>
+                    <p class="activity-time">2 weeks ago</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

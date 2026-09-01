@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Applies the saved global theme before first paint — must load first, unblocked, before any stylesheet. Shared by every page (see assets/js/theme.js). -->
+  <script src="../assets/js/theme.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assinaturas — Voren</title>
+  <meta name="description" content="Escolha o plano ideal para organizar suas assinaturas no Voren." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
+  <!-- Shared design system — same files used by every other page -->
+  <link rel="stylesheet" href="../assets/css/reset.css" />
+  <link rel="stylesheet" href="../assets/css/variables.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/components.css" />
+
+  <!-- Styles used only on this page -->
+  <link rel="stylesheet" href="../assets/css/plan.css" />
+</head>
+<body class="plan-select-page">
+  <a href="#plan-select-grid" class="skip-link">Skip to plans</a>
+
+  <header class="plan-select-topbar">
+    <a href="dashboard.html" class="plan-select-brand" aria-label="Voren home">
+      <span class="plan-select-brand-mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5 8 14l8-8"/></svg>
+      </span>
+      <span class="plan-select-brand-name">Voren</span>
+    </a>
+    <a href="dashboard.html" class="plan-select-back-link">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 15.5 7 10l5.5-5.5"/></svg>
+      Voltar ao dashboard
+    </a>
+  </header>
+
+  <main id="main-content">
+    <section class="plan-select-header">
+      <h1 class="plan-select-title">Assinaturas</h1>
+      <p class="plan-select-subtitle">Escolha o plano ideal para organizar suas assinaturas.</p>
+    </section>
+
+    <!-- Plan cards are rendered from assets/js/plan.js so adding a new
+         plan later (e.g. turning Pro into a real option) is a data change,
+         not an HTML change. -->
+    <section class="plan-select-grid" id="plan-select-grid" aria-label="Planos disponíveis">
+      <!-- .plan-select-card elements are injected here -->
+    </section>
+
+    <section class="plan-select-trial-banner" aria-label="Informações sobre o teste gratuito">
+      <div class="plan-select-trial-inner">
+        <span class="plan-select-trial-icon" aria-hidden="true">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4l2.8 1.6"/></svg>
+        </span>
+        <p class="plan-select-trial-text">
+          <strong>Experimente todos os recursos gratuitamente por 21 dias.</strong>
+          Cancele quando quiser.
+        </p>
+      </div>
+    </section>
+
+    <p class="plan-select-footnote">Sem compromisso. Nenhum cartão é necessário para iniciar o teste.</p>
+  </main>
+
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/plan.js"></script>
+</body>
+</html>
