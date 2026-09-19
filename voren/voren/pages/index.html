@@ -1091,7 +1091,7 @@ h1 span {
 
             <div class="actions">
 
-                <a href="login.html" class="start-button">
+                <a href="./login.html" class="start-button">
 
                     Get started
 
@@ -1226,7 +1226,7 @@ h1 span {
                                         </div>
 
                                         <div class="service-date">
-                                            Renews in 6 days
+                                            Renews in 5 days
                                         </div>
 
                                     </div>
@@ -1254,7 +1254,7 @@ h1 span {
                                         </div>
 
                                         <div class="service-date">
-                                            Renews in 11 days
+                                            Renews in 8 days
                                         </div>
 
                                     </div>
@@ -1262,7 +1262,7 @@ h1 span {
                                 </div>
 
                                 <div class="price">
-                                    $59.99
+                                    $19.99
                                 </div>
 
                             </div>
@@ -1288,9 +1288,12 @@ h1 span {
                                 <div class="bar"></div>
 
                                 <div class="graph-labels">
+                                    <span>Jan</span>
+                                    <span>Feb</span>
+                                    <span>Mar</span>
+                                    <span>Apr</span>
                                     <span>May</span>
                                     <span>Jun</span>
-                                    <span>Jul</span>
                                 </div>
 
                             </div>
@@ -1324,11 +1327,11 @@ h1 span {
                     </div>
 
                     <div class="float-value">
-                        5 days remaining
+                        Notion
                     </div>
 
                     <div class="float-sub">
-                        No surprise charges
+                        Ends in 4 days
                     </div>
 
                 </div>
@@ -1343,13 +1346,11 @@ h1 span {
 
 <script>
 
-const particles =
-    document.getElementById("particles");
+const particles = document.getElementById("particles");
 
-for (let i = 0; i < 55; i++) {
+for (let i = 0; i < 70; i++) {
 
-    const particle =
-        document.createElement("span");
+    const particle = document.createElement("span");
 
     particle.className = "particle";
 
@@ -1360,43 +1361,19 @@ for (let i = 0; i < 55; i++) {
         Math.random() * 100 + "%";
 
     particle.style.animationDuration =
-        (5 + Math.random() * 9) + "s";
+        5 + Math.random() * 8 + "s";
 
     particle.style.animationDelay =
-        (-Math.random() * 10) + "s";
-
-    particle.style.opacity =
-        Math.random() * .5;
+        Math.random() * 8 + "s";
 
     particles.appendChild(particle);
 }
 
-
 const visual =
     document.getElementById("visual");
 
-const dashboardWrap =
+const dashboard =
     document.getElementById("dashboardWrap");
-
-let targetX = 0;
-let targetY = 0;
-
-let currentX = 0;
-let currentY = 0;
-
-
-visual.addEventListener("mouseenter", () => {
-    targetX = 0;
-    targetY = 0;
-});
-
-
-visual.addEventListener("mouseleave", () => {
-
-    targetX = 0;
-    targetY = 0;
-});
-
 
 visual.addEventListener("mousemove", (event) => {
 
@@ -1411,52 +1388,53 @@ visual.addEventListener("mousemove", (event) => {
         (event.clientY - rect.top) /
         rect.height;
 
-    targetY =
-        (x - 0.5) * 14;
+    const rotateY =
+        (x - 0.5) * 12;
 
-    targetX =
-        -(y - 0.5) * 10;
+    const rotateX =
+        (0.5 - y) * 10;
+
+    dashboard.style.transform =
+        `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 
     visual.style.setProperty(
         "--spot-x",
-        ((x - 0.5) * 300) + "px"
+        (x - 0.5) * 250 + "px"
     );
 
     visual.style.setProperty(
         "--spot-y",
-        ((y - 0.5) * 300) + "px"
+        (y - 0.5) * 250 + "px"
     );
 
-    dashboardWrap.style.setProperty(
+    const dashRect =
+        dashboard.getBoundingClientRect();
+
+    const lightX =
+        ((event.clientX - dashRect.left) /
+        dashRect.width) * 100;
+
+    const lightY =
+        ((event.clientY - dashRect.top) /
+        dashRect.height) * 100;
+
+    dashboard.style.setProperty(
         "--light-x",
-        (x * 100) + "%"
+        lightX + "%"
     );
 
-    dashboardWrap.style.setProperty(
+    dashboard.style.setProperty(
         "--light-y",
-        (y * 100) + "%"
+        lightY + "%"
     );
-
 });
 
+visual.addEventListener("mouseleave", () => {
 
-function animateTilt() {
+    dashboard.style.transform =
+        "rotateX(0deg) rotateY(0deg)";
 
-    currentX +=
-        (targetX - currentX) * 0.08;
-
-    currentY +=
-        (targetY - currentY) * 0.08;
-
-    dashboardWrap.style.transform = `
-        rotateX(${currentX}deg)
-        rotateY(${currentY}deg)
-    `;
-
-    requestAnimationFrame(animateTilt);
-}
-
-animateTilt();
+});
 
 </script>
 
